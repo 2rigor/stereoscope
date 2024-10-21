@@ -14,7 +14,7 @@ import (
 	"github.com/anchore/stereoscope/internal/log"
 )
 
-const perFileReadLimit = 2 * GB
+const perFileReadLimit = 10 * GB
 
 var ErrTarStopIteration = fmt.Errorf("halt iterating tar")
 
@@ -178,7 +178,7 @@ func (v tarVisitor) visit(entry TarFileEntry) error {
 		// limit the reader on each file read to prevent decompression bomb attacks
 		numBytes, err := io.Copy(f, io.LimitReader(entry.Reader, perFileReadLimit))
 		if numBytes >= perFileReadLimit || errors.Is(err, io.EOF) {
-			return fmt.Errorf("zip read limit hit (potential decompression bomb attack)")
+			return fmt.Errorf("zip read limit hit (potential decompression bomb attack): %v > %v.", numBytes, perFileReadLimit)
 		}
 		if err != nil {
 			return fmt.Errorf("unable to copy file: %w", err)
