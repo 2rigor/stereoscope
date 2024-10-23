@@ -16,7 +16,8 @@ import (
 )
 
 var perFileReadLimitStr = "0"
-var perFileReadLimit int64 = 2 * GB
+const perFileReadLimitDefault = 2 * GB
+var perFileReadLimit int64 = perFileReadLimitDefault
 
 var ErrTarStopIteration = fmt.Errorf("halt iterating tar")
 
