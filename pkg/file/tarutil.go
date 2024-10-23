@@ -14,7 +14,7 @@ import (
 	"github.com/anchore/stereoscope/internal/log"
 )
 
-var perFileReadLimit = 1 * GB
+var perFileReadLimit int64 = 1 * GB
 
 var ErrTarStopIteration = fmt.Errorf("halt iterating tar")
 
