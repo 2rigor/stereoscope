@@ -45,7 +45,7 @@ func init() {
     setPerFileReadLimit(perFileReadLimitStr)
 }
 
-func setPerFileReadLimit(val str) {
+func setPerFileReadLimit(val string) {
      valInt64, err := strconv.ParseInt(val, 10, 64)
     if err != nil || valInt64 <= 0 {
         return
