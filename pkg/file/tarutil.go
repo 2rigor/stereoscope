@@ -48,7 +48,7 @@ func init() {
     }
     perFileReadLimitLocal, err := strconv.ParseInt(perFileReadLimitStr, 10, 64)
     if err != nil || perFileReadLimitLocal <= 0 {
-        log.Fatalf("Error parsing buildVersionStr: %v", err) //TODO: remove
+        log.Errorf("Error parsing buildVersionStr: %v", err) //TODO: remove
     }
     log.Infof("SETTING: %v instead of ", perFileReadLimitLocal, perFileReadLimit) //TODO: remove
     perFileReadLimit = perFileReadLimitLocal
