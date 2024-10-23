@@ -14,6 +14,7 @@ import (
 	"github.com/anchore/stereoscope/internal/log"
 )
 
+var perFileReadLimitStr = "0"
 var perFileReadLimit int64 = 1 * GB
 
 var ErrTarStopIteration = fmt.Errorf("halt iterating tar")
@@ -37,6 +38,19 @@ type TarFileVisitor func(TarFileEntry) error
 // ErrFileNotFound returned from ReaderFromTar if a file is not found in the given archive.
 type ErrFileNotFound struct {
 	Path string
+}
+
+func init() {
+    if perFileReadLimitStr == "" {
+	log.Infof("VALUE WASN'T SET") //TODO: remove
+	return
+    }
+    perFileReadLimitLocal, err := strconv.ParseInt(perFileReadLimitStr, 10, 64)
+    if err != nil || perFileReadLimitLocal <= 0 {
+        log.Fatalf("Error parsing buildVersionStr: %v", err) //TODO: remove
+    }
+    log.Infof("SETTING: %v instead of ", perFileReadLimitLocal, perFileReadLimit) //TODO: remove
+    perFileReadLimit = perFileReadLimitLocal
 }
 
 func (e *ErrFileNotFound) Error() string {
