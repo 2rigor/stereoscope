@@ -436,7 +436,7 @@ func TestSetPerFileReadLimit_Valid(t *testing.T) {
     setPerFileReadLimit("12345")
     
     if perFileReadLimit != 12345 {
-        t.Errorf("Expected perFileReadLimit to be 12345, but got %d", BuildVersion)
+        t.Errorf("Expected perFileReadLimit to be 12345, but got %d", perFileReadLimit)
     }
 }
 
@@ -445,7 +445,7 @@ func TestSetPerFileReadLimit_Invalid(t *testing.T) {
     setPerFileReadLimit("invalid")
     
     if perFileReadLimit != 2 * GB {
-        t.Errorf("Expected perFileReadLimit to be %d, but got %d", 2 * GB, BuildVersion)
+        t.Errorf("Expected perFileReadLimit to be %d, but got %d", 2 * GB, perFileReadLimit)
     }
 }
 
@@ -454,6 +454,6 @@ func TestSetPerFileReadLimit_Empty(t *testing.T) {
     setPerFileReadLimit("")
     
     if perFileReadLimit != 2 * GB {
-        t.Errorf("Expected perFileReadLimit to be %d, but got %d", 2 * GB, BuildVersion)
+        t.Errorf("Expected perFileReadLimit to be %d, but got %d", 2 * GB, perFileReadLimit)
     }
 }
