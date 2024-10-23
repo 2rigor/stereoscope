@@ -42,16 +42,15 @@ type ErrFileNotFound struct {
 }
 
 func init() {
-    if perFileReadLimitStr == "" {
-	log.Infof("VALUE WASN'T SET") //TODO: remove
-	return
+    setPerFileReadLimit(perFileReadLimitStr)
+}
+
+funct setPerFileReadLimit(val str) {
+     valInt64, err := strconv.ParseInt(val, 10, 64)
+    if err != nil || valInt64 <= 0 {
+        return
     }
-    perFileReadLimitLocal, err := strconv.ParseInt(perFileReadLimitStr, 10, 64)
-    if err != nil || perFileReadLimitLocal <= 0 {
-        log.Errorf("Error parsing buildVersionStr: %v", err) //TODO: remove
-    }
-    log.Infof("SETTING: %v instead of ", perFileReadLimitLocal, perFileReadLimit) //TODO: remove
-    perFileReadLimit = perFileReadLimitLocal
+    perFileReadLimit = valInt64
 }
 
 func (e *ErrFileNotFound) Error() string {
