@@ -16,7 +16,9 @@ import (
 )
 
 var perFileReadLimitStr = "0"
+
 const perFileReadLimitDefault = 2 * GB
+
 var perFileReadLimit int64 = perFileReadLimitDefault
 
 var ErrTarStopIteration = fmt.Errorf("halt iterating tar")
@@ -43,15 +45,15 @@ type ErrFileNotFound struct {
 }
 
 func init() {
-    setPerFileReadLimit(perFileReadLimitStr)
+	setPerFileReadLimit(perFileReadLimitStr)
 }
 
 func setPerFileReadLimit(val string) {
-     valInt64, err := strconv.ParseInt(val, 10, 64)
-    if err != nil || valInt64 <= 0 {
-        return
-    }
-    perFileReadLimit = valInt64
+	valInt64, err := strconv.ParseInt(val, 10, 64)
+	if err != nil || valInt64 <= 0 {
+		return
+	}
+	perFileReadLimit = valInt64
 }
 
 func (e *ErrFileNotFound) Error() string {
@@ -193,7 +195,7 @@ func (v tarVisitor) visit(entry TarFileEntry) error {
 		// limit the reader on each file read to prevent decompression bomb attacks
 		numBytes, err := io.Copy(f, io.LimitReader(entry.Reader, perFileReadLimit))
 		if numBytes >= perFileReadLimit || errors.Is(err, io.EOF) {
-			return fmt.Errorf("zip read limit hit (potential decompression bomb attack): %v > %v.", numBytes, perFileReadLimit)
+			return fmt.Errorf("zip read limit hit (potential decompression bomb attack): copied %v, limit %v", numBytes, perFileReadLimit)
 		}
 		if err != nil {
 			return fmt.Errorf("unable to copy file: %w", err)
