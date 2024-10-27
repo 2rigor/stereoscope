@@ -15,11 +15,9 @@ import (
 	"github.com/anchore/stereoscope/internal/log"
 )
 
-var perFileReadLimitStr = "0"
-
 const perFileReadLimitDefault = 2 * GB
-
 var perFileReadLimit int64 = perFileReadLimitDefault
+var perFileReadLimitStr = "0" // allows configuring the above value during build time
 
 var ErrTarStopIteration = fmt.Errorf("halt iterating tar")
 
